@@ -21,12 +21,10 @@
     "noFallthroughCasesInSwitch": true,
 
     /* absolute paths */
-    "baseUrl": "./",
+    "baseUrl": "src",
     "paths": {
-      "@components/*": ["src/components/*"],
-      "@common/*": ["src/common/*"],
-      "@features/*": ["src/features/*"],
-      "@hooks/*": ["src/hooks/*"],
+      "common/*": ["common/*"],
+      "features/*": ["features/*"],
     },
   },
   "include": ["src"],
