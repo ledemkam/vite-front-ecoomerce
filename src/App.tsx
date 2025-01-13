@@ -1,10 +1,12 @@
-import CartCount from "features/cart/display-cart-count/ui/CartCount"
+import ProductSearch from "features/product/search-products/ui/ProductSearch"
+
+const onSubmit = (search: string) => {
+  console.log(search)
+}
 
 const App = () => {
   return (
-    <div className="mt-5">
-      <CartCount cartCount={5} />
-    </div>
+    <ProductSearch onSubmit={onSubmit} />
   )
 }
 export default App
