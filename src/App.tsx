@@ -1,13 +1,10 @@
-import RemoveCartButton from "features/cart/remove-cart-product/ui/RemoveCartButton"
-
-
+import CartCount from "features/cart/display-cart-count/ui/CartCount"
 
 const App = () => {
-
-  const removeFromCart = () => {
-    alert('removes cart')
-  }
-  return <RemoveCartButton removeFromCart={removeFromCart}/>
-    
+  return (
+    <div className="mt-5">
+      <CartCount cartCount={5} />
+    </div>
+  )
 }
 export default App
