@@ -1,11 +1,11 @@
-import AddCartButton from "features/cart/add-cart-product/ui/AddCartButton"
+import RemoveCartButton from "features/cart/add-cart-product/ui/RemoveCartButton"
 
 const App = () => {
 
-  const addToCart = () => {
-    console.log('Add to cart')
+  const removeToCart = () => {
+    alert('remove cart')
   }
-  return <AddCartButton addToCart={addToCart} />
+  return <RemoveCartButton removeToCart={removeToCart} />
     
 }
 export default App
