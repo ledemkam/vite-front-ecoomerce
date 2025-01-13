@@ -1,15 +1,11 @@
-import Button from "common/design-system/Button"
+import AddCartButton from "features/cart/add-cart-product/ui/AddCartButton"
 
 const App = () => {
-  return (
-    <>
-      <Button  onClick={() => console.log('waren löschen')}>
-        korb löschen
-      </Button>
-      <Button  onClick={() => console.log('waren hinzufügen')}>
-        korn himzufügen
-      </Button>
-    </>
-  )
+
+  const addToCart = () => {
+    console.log('Add to cart')
+  }
+  return <AddCartButton addToCart={addToCart} />
+    
 }
 export default App
