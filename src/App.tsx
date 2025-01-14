@@ -1,6 +1,6 @@
 import Header from "common/layout/Header"
 import { CartProductItemData } from "features/cart/list-cart-products/types"
-import CartProductItem from "features/cart/list-cart-products/ui/CartProductItem"
+import CartProductList from "features/cart/list-cart-products/ui/CartProductList"
 import { ProductData } from "features/product/display-product/types"
 
 
@@ -28,6 +28,27 @@ const cartProduct: Omit<CartProductItemData, 'id'> = {
   picture: '',
   price: 1000,
 }
+
+const cartProducts: CartProductItemData[] = [
+  {
+    id: '1',
+    name: 'Mobile phone',
+    picture: '',
+    price: 200,
+  },
+  {
+    id: '2',
+    name: 'tablet',
+    picture: '',
+    price: 100,
+  },
+  {
+    id: '3',
+    name: 'laptop',
+    picture: '',
+    price: 1000,
+  },
+]
  
  
 
@@ -35,7 +56,7 @@ const App = () => {
   return (
     <>
       <Header onSubmit={onSubmit} cartcount={cartcount} />
-      <CartProductItem cartProduct={cartProduct} removeFromCart={removeFromCart} />
+      <CartProductList cartProducts={cartProducts} removeFromCart={removeFromCart} />
     </>
   )
 }

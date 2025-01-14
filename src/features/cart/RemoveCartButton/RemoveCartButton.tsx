@@ -9,7 +9,7 @@ removeFromCart: () => void;
 
 const RemoveCartButton = ({removeFromCart }: Props) : ReactElement => {
 return (
- <Button variant="contained" onClick={removeFromCart}>
+ <Button disabled={false} onClick={removeFromCart}>
      Warenkorb entfernen
  </Button>
 );
