@@ -16,9 +16,7 @@ const removeFromCart = () => {
   console.log("remove fron cart")
 }
 
-const addToCart = () => {
-  console.log("add to cart")
-}
+
 
 
 const cartcount = 10
@@ -33,26 +31,7 @@ const cartProduct: Omit<CartProductItemData, 'id'> = {
   price: 1000,
 }
 
-const cartProducts: CartProductItemData[] = [
-  {
-    id: '1',
-    name: 'Mobile phone',
-    picture: '',
-    price: 200,
-  },
-  {
-    id: '2',
-    name: 'tablet',
-    picture: '',
-    price: 100,
-  },
-  {
-    id: '3',
-    name: 'laptop',
-    picture: '',
-    price: 1000,
-  },
-]
+
  
  
 
@@ -80,6 +59,7 @@ const App = () => {
 
   const productToDisplay: Record<string, ProductData> = {
     '1': {
+          id: '1',
           name: 'Mobile phone',
           picture: '',
           price: 1000,
@@ -87,6 +67,7 @@ const App = () => {
           'The mobile phone is a superior smartphone that offersunmatched performance',
     },
     '2': {
+          id: '2',
           name: 'Laptop',
           picture: '',
           price: 1500,
@@ -94,6 +75,7 @@ const App = () => {
           'The Laptop is a superior laptop that offers unmatched performance',
           },
     '3': {
+            id: '3',
             name: 'Tablet',
             picture: '',
             price: 500,
@@ -102,11 +84,34 @@ const App = () => {
     },
    };
 
+   const productToAddToCart: Record<string, CartProductItemData> = {
+    '1': {
+    id: '1',
+    name: 'Mobile phone',
+    picture: '',
+    price: 1000,
+    },
+    '2': {
+    id: '2',
+    name: 'Laptop',
+    picture: '',
+    price: 1500,
+    },
+    '3': {
+    id: '3',
+    name: 'Tablet',
+    picture: '',
+    price: 500,
+    },
+   };
+   
+
    const matchProductPage = useMatch('/product/:id');
 
 
   const[products,setProducts]= useState<ProductItemData[]>(allProducts)
   const[product,setProduct]= useState<ProductData>(productToDisplay['1'])
+  const[cartProducts,setCartProducts]= useState<CartProductItemData[]>([])
 
   const onSubmit = (search: string): void => {
         const filteredProducts = allProducts.filter((product) =>
@@ -127,6 +132,16 @@ const App = () => {
     }
    }, [matchProductPage]);
 
+
+   const addToCart = (productId : string): void => {
+      const isProductInCart = cartProducts.some((product) => product.id === productId);
+      if (!isProductInCart) {
+        const productToAdd = productToAddToCart[productId];
+        setCartProducts([...cartProducts, productToAdd]);
+      }
+  }
+  
+
   return (
     <>
       <Header onSubmit={onSubmit} cartcount={cartcount} />
@@ -134,7 +149,7 @@ const App = () => {
           <Route path="/" element={<ProductList products={products} />} />
           <Route
           path="/product/:id"
-          element={<Product product={product} addToCart={addToCart} />}  />
+          element={<Product product={product} addToCart={() =>addToCart(product.id)} />}  />
           <Route
           path="/cart"
           element={
