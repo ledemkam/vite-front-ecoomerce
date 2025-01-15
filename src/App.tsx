@@ -10,7 +10,10 @@ import ProductList from "features/product/list-products/ui/ProductList"
 import { Route, Routes, useMatch } from "react-router-dom"
 import { allProducts } from "features/product/list-products/data/allProducts"
 import { productToDisplay } from "features/product/display-product/data/productToDisplay"
-import { productToAddToCart } from "features/cart/add-cart-product/data/productToAddToCart"
+import { getProduct } from "features/product/display-product/api/getProducts"
+import { searchProducts } from "features/product/search-products/api/searchProducts"
+import { addProductToCart, getCartCount, getCartProducts, removeProductFromCart } from "features/cart/api/cart"
+import { getProducts } from "features/product/list-products/api/getProducts"
 
 
 
@@ -19,7 +22,9 @@ import { productToAddToCart } from "features/cart/add-cart-product/data/productT
 
 const App = (): ReactElement => {
 
-const matchProductPage = useMatch('/product/:id');
+   const matchHomePage = useMatch('/');
+   const matchProductPage = useMatch('/product/:id');
+    const matchCartPage = useMatch('/cart');
 
 
   const[products,setProducts]= useState<ProductItemData[]>(allProducts)
@@ -27,22 +32,50 @@ const matchProductPage = useMatch('/product/:id');
   const[cartProducts,setCartProducts]= useState<CartProductItemData[]>([])
   const[cartcount,setCartcount]= useState(0)
 
-  const onSubmit = (search: string): void => {
-        const filteredProducts = allProducts.filter((product) =>
-      product.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ,
-    );
+  const onSubmit = async (search: string): Promise<void> => {
+    const filteredProducts = await searchProducts(search);
     setProducts(filteredProducts);
-  }
+   };
+   const addToCart = async (productId: string): Promise<void> => {
+    const updatedCart = await addProductToCart(productId);
+    setCartProducts(updatedCart.cartProducts);
+    setCartcount(updatedCart.cartCount);
+   };
 
-  const changeURL = (productId: CartProductItemData["id"]): void => {
-    setProduct(productToDisplay[productId]);
+   const removeFromCart = async (productId: CartProductItemData['id']): Promise<void> => {
+ const updatedCart = await removeProductFromCart(productId);
+ setCartProducts(updatedCart.cartProducts);
+ setCartcount(updatedCart.cartCount);
+};
+
+
+
+const fetchProducts = async (): Promise<void> => {
+  const initialProducts = await getProducts();
+  setProducts(initialProducts);
+ };
+
+ const fetchCartCount = async (): Promise<void> => {
+  const initialCartCount = await getCartCount();
+  setCartcount(initialCartCount);
+ };
+
+ const fetchCartProducts = async (): Promise<void> => {
+  const initialCartProducts = await getCartProducts();
+  setCartProducts(initialCartProducts);
+ };
+
+  const fetchProduct = async (productId: string): Promise<void> => {
+    const product = await getProduct(productId);
+    setProduct(product);
    };
    
+
 
   useEffect(() => {
     const productIdInURL = matchProductPage?.params.id;
     if (productIdInURL) {
-    changeURL(productIdInURL);
+    fetchProduct(productIdInURL);
     }
    }, [matchProductPage]);
 
@@ -52,20 +85,24 @@ const matchProductPage = useMatch('/product/:id');
    }, [cartProducts]);
 
 
-   const addToCart = (productId : string): void => {
-      const isProductInCart = cartProducts.some((product) => product.id === productId);
-      if (!isProductInCart) {
-        const productToAdd = productToAddToCart[productId];
-        setCartProducts([...cartProducts, productToAdd]);
-        setCartcount(cartcount + 1);
-      }
-  }
 
-  const removeFromCart = (productId: string): void => {
-    const cartProductsWithoutTheRemovedOne = cartProducts.filter((product) => product.id !== productId);
-    setCartProducts(cartProductsWithoutTheRemovedOne);
-    setCartcount(cartcount - 1);
-  }
+   useEffect(() => {
+    fetchCartCount();
+   }, []);
+
+   useEffect(() => {
+    if(matchHomePage) fetchProducts();
+   }, [matchHomePage]);
+
+   useEffect(() => {
+    if(matchCartPage) fetchCartProducts();
+   }, [matchCartPage]);
+
+
+ 
+ 
+
+
 
   return (
     <>
