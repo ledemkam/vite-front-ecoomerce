@@ -13,26 +13,6 @@ import { Route, Routes, useMatch } from "react-router-dom"
 
 
 
-
-
-
-
-const cartcount = 10
-
- 
-
-
-
-const cartProduct: Omit<CartProductItemData, 'id'> = {
-  name: 'Mobile phone',
-  picture: '',
-  price: 1000,
-}
-
-
- 
- 
-
 const App = () => {
   const allProducts: ProductItemData[] = [
     {
@@ -110,6 +90,7 @@ const App = () => {
   const[products,setProducts]= useState<ProductItemData[]>(allProducts)
   const[product,setProduct]= useState<ProductData>(productToDisplay['1'])
   const[cartProducts,setCartProducts]= useState<CartProductItemData[]>([])
+  const[cartcount,setCartcount]= useState(0)
 
   const onSubmit = (search: string): void => {
         const filteredProducts = allProducts.filter((product) =>
@@ -130,18 +111,25 @@ const App = () => {
     }
    }, [matchProductPage]);
 
+   const cartCount = cartProducts.length;
+   useEffect(() => {
+    setCartcount(cartCount);
+   }, [cartProducts]);
+
 
    const addToCart = (productId : string): void => {
       const isProductInCart = cartProducts.some((product) => product.id === productId);
       if (!isProductInCart) {
         const productToAdd = productToAddToCart[productId];
         setCartProducts([...cartProducts, productToAdd]);
+        setCartcount(cartcount + 1);
       }
   }
 
   const removeFromCart = (productId: string): void => {
     const cartProductsWithoutTheRemovedOne = cartProducts.filter((product) => product.id !== productId);
     setCartProducts(cartProductsWithoutTheRemovedOne);
+    setCartcount(cartcount - 1);
   }
 
   return (
