@@ -4,7 +4,7 @@ import CartProductItem from "../CartProductItem";
 
 type Props = {
     cartProducts: CartProductItemData[];
-    removeFromCart: () => void;
+    removeFromCart: (productId:CartProductItemData["id"]) => void;
     };
     
 
@@ -21,7 +21,7 @@ const CartProductList = ({cartProducts, removeFromCart} : Props) : ReactElement 
             >
             <CartProductItem
             cartProduct={cartProductWithoutId}
-            removeFromCart={removeFromCart}
+            removeFromCart={() => removeFromCart(id)}
             />
             </div>
             );

@@ -12,9 +12,7 @@ import { Route, Routes, useMatch } from "react-router-dom"
 
 
 
-const removeFromCart = () => {
-  console.log("remove fron cart")
-}
+
 
 
 
@@ -120,7 +118,7 @@ const App = () => {
     setProducts(filteredProducts);
   }
 
-  const changeURL = (productId: string): void => {
+  const changeURL = (productId: CartProductItemData["id"]): void => {
     setProduct(productToDisplay[productId]);
    };
    
@@ -140,7 +138,11 @@ const App = () => {
         setCartProducts([...cartProducts, productToAdd]);
       }
   }
-  
+
+  const removeFromCart = (productId: string): void => {
+    const cartProductsWithoutTheRemovedOne = cartProducts.filter((product) => product.id !== productId);
+    setCartProducts(cartProductsWithoutTheRemovedOne);
+  }
 
   return (
     <>
