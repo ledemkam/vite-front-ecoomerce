@@ -2,6 +2,10 @@ import Header from "common/layout/Header"
 import { CartProductItemData } from "features/cart/list-cart-products/types"
 import CartProductList from "features/cart/list-cart-products/ui/CartProductList"
 import { ProductData } from "features/product/display-product/types"
+import Product from "features/product/display-product/ui/Product"
+import { ProductItemData } from "features/product/list-products/types"
+import ProductList from "features/product/list-products/ui/ProductList"
+import { Route, Routes } from "react-router-dom"
 
 
 const onSubmit = (search: string) => {
@@ -13,7 +17,34 @@ const removeFromCart = () => {
   console.log("remove fron cart")
 }
 
+const addToCart = () => {
+  console.log("add to cart")
+}
+
+
 const cartcount = 10
+
+const products: ProductItemData[] = [
+  {
+  id: '1',
+  name: 'Mobile phone',
+  picture: '',
+  price: 1000,
+  },
+  {
+  id: '2',
+  name: 'Laptop',
+  picture: '',
+  price: 1500,
+  },
+  {
+  id: '3',
+  name: 'Tablet',
+  picture: '',
+  price: 500,
+  },
+ ];
+ 
 
 const product: ProductData = {
   name: 'Mobile phone',
@@ -56,7 +87,18 @@ const App = () => {
   return (
     <>
       <Header onSubmit={onSubmit} cartcount={cartcount} />
-      <CartProductList cartProducts={cartProducts} removeFromCart={removeFromCart} />
+      <Routes>
+          <Route path="/" element={<ProductList products={products} />} />
+          <Route
+          path="/product/:id"
+          element={<Product product={product} addToCart={addToCart} />}  />
+          <Route
+          path="/cart"
+          element={
+          <CartProductList
+          cartProducts={cartProducts}
+          removeFromCart={removeFromCart} /> } />
+       </Routes>
     </>
   )
 }
