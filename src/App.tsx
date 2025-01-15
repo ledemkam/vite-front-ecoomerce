@@ -9,10 +9,8 @@ import { useState } from "react"
 import { Route, Routes } from "react-router-dom"
 
 
-const onSubmit = (search: string) => {
-  console.log(search)
 
-}
+
 
 const removeFromCart = () => {
   console.log("remove fron cart")
@@ -65,26 +63,34 @@ const cartProducts: CartProductItemData[] = [
  
 
 const App = () => {
-  const[products,setProducts]= useState<ProductItemData[]>([
+  const allProducts: ProductItemData[] = [
     {
-      id: '1',
-      name: 'Mobile phone',
-      picture: '',
-      price: 1000,
-      },
-      {
-      id: '2',
-      name: 'Laptop',
-      picture: '',
-      price: 1500,
-      },
-      {
-      id: '3',
-      name: 'Tablet',
-      picture: '',
-      price: 500,
-      },
-  ])
+    id: '1',
+    name: 'Mobile phone',
+    picture: '',
+    price: 1000,
+    },
+    {
+    id: '2',
+    name: 'Laptop',
+    picture: '',
+    price: 1500,
+    },
+    {
+    id: '3',
+    name: 'Tablet',
+    picture: '',
+    price: 500,
+    },  
+  ]
+  const[products,setProducts]= useState<ProductItemData[]>(allProducts)
+
+  const onSubmit = (search: string): void => {
+        const filteredProducts = allProducts.filter((product) =>
+      product.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ,
+    );
+    setProducts(filteredProducts);
+  }
   return (
     <>
       <Header onSubmit={onSubmit} cartcount={cartcount} />
