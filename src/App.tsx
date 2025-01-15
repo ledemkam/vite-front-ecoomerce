@@ -5,8 +5,8 @@ import { ProductData } from "features/product/display-product/types"
 import Product from "features/product/display-product/ui/Product"
 import { ProductItemData } from "features/product/list-products/types"
 import ProductList from "features/product/list-products/ui/ProductList"
-import { useState } from "react"
-import { Route, Routes } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { Route, Routes, useMatch } from "react-router-dom"
 
 
 
@@ -25,13 +25,7 @@ const cartcount = 10
 
  
 
-const product: ProductData = {
-  name: 'Mobile phone',
-  picture: '',
-  price: 1000,
-  description:
-  'The mobile phone is a superior smartphone that offers unmatched performance and top-tier camera features. Enjoy the sleek design, powerful A15 Bionic chip, and durable Ceramic Shield front cover. Itoffers Dual 12MP camera system: Ultra Wide and Wide cameras, and up to 19 hours of video playback. Experience the next level of smarttechnology with the mobile phone.',
- };
+
 
 const cartProduct: Omit<CartProductItemData, 'id'> = {
   name: 'Mobile phone',
@@ -65,25 +59,54 @@ const cartProducts: CartProductItemData[] = [
 const App = () => {
   const allProducts: ProductItemData[] = [
     {
-    id: '1',
-    name: 'Mobile phone',
-    picture: '',
-    price: 1000,
+      id: '1',
+      name: 'Mobile phone',
+      picture: '',
+      price: 1000,
     },
     {
-    id: '2',
-    name: 'Laptop',
-    picture: '',
-    price: 1500,
+      id: '2',
+      name: 'Laptop',
+      picture: '',
+      price: 1500,
     },
     {
-    id: '3',
-    name: 'Tablet',
-    picture: '',
-    price: 500,
+      id: '3',
+      name: 'Tablet',
+      picture: '',
+      price: 500,
     },  
   ]
+
+  const productToDisplay: Record<string, ProductData> = {
+    '1': {
+          name: 'Mobile phone',
+          picture: '',
+          price: 1000,
+          description:
+          'The mobile phone is a superior smartphone that offersunmatched performance',
+    },
+    '2': {
+          name: 'Laptop',
+          picture: '',
+          price: 1500,
+          description:
+          'The Laptop is a superior laptop that offers unmatched performance',
+          },
+    '3': {
+            name: 'Tablet',
+            picture: '',
+            price: 500,
+            description:
+            'The Tablet is a superior tablet that offers unmatchedperformance',
+    },
+   };
+
+   const matchProductPage = useMatch('/product/:id');
+
+
   const[products,setProducts]= useState<ProductItemData[]>(allProducts)
+  const[product,setProduct]= useState<ProductData>(productToDisplay['1'])
 
   const onSubmit = (search: string): void => {
         const filteredProducts = allProducts.filter((product) =>
@@ -91,6 +114,19 @@ const App = () => {
     );
     setProducts(filteredProducts);
   }
+
+  const changeURL = (productId: string): void => {
+    setProduct(productToDisplay[productId]);
+   };
+   
+
+  useEffect(() => {
+    const productIdInURL = matchProductPage?.params.id;
+    if (productIdInURL) {
+    changeURL(productIdInURL);
+    }
+   }, [matchProductPage]);
+
   return (
     <>
       <Header onSubmit={onSubmit} cartcount={cartcount} />
