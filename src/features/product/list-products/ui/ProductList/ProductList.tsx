@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react';
 import { ProductItemData } from '../../types';
 import ProductItem from '../ProductItem';
+import { Link } from 'react-router-dom';
 
 
 type Props = {
@@ -11,7 +12,10 @@ type Props = {
      <div className='flex flex-col items-center justify-center sm:flex-row sm:flex-wrap sm:justify-center gap-2'>
      {products.map((product) => {
      const { id, ...productWithoutId } = product;
-     return <ProductItem key={id} product={productWithoutId} />;
+     return (
+        <Link key={id} to={`/product/${id}`}>
+           <ProductItem product={productWithoutId} />
+        </Link>)
      })}
      </div>
     );
