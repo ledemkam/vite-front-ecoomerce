@@ -5,6 +5,7 @@ import { ProductData } from "features/product/display-product/types"
 import Product from "features/product/display-product/ui/Product"
 import { ProductItemData } from "features/product/list-products/types"
 import ProductList from "features/product/list-products/ui/ProductList"
+import { useState } from "react"
 import { Route, Routes } from "react-router-dom"
 
 
@@ -24,26 +25,6 @@ const addToCart = () => {
 
 const cartcount = 10
 
-const products: ProductItemData[] = [
-  {
-  id: '1',
-  name: 'Mobile phone',
-  picture: '',
-  price: 1000,
-  },
-  {
-  id: '2',
-  name: 'Laptop',
-  picture: '',
-  price: 1500,
-  },
-  {
-  id: '3',
-  name: 'Tablet',
-  picture: '',
-  price: 500,
-  },
- ];
  
 
 const product: ProductData = {
@@ -84,6 +65,26 @@ const cartProducts: CartProductItemData[] = [
  
 
 const App = () => {
+  const[products,setProducts]= useState<ProductItemData[]>([
+    {
+      id: '1',
+      name: 'Mobile phone',
+      picture: '',
+      price: 1000,
+      },
+      {
+      id: '2',
+      name: 'Laptop',
+      picture: '',
+      price: 1500,
+      },
+      {
+      id: '3',
+      name: 'Tablet',
+      picture: '',
+      price: 500,
+      },
+  ])
   return (
     <>
       <Header onSubmit={onSubmit} cartcount={cartcount} />
