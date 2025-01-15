@@ -1,3 +1,5 @@
+import type { ReactElement } from "react"
+import { useEffect, useState } from "react"
 import Header from "common/layout/Header"
 import { CartProductItemData } from "features/cart/list-cart-products/types"
 import CartProductList from "features/cart/list-cart-products/ui/CartProductList"
@@ -5,86 +7,19 @@ import { ProductData } from "features/product/display-product/types"
 import Product from "features/product/display-product/ui/Product"
 import { ProductItemData } from "features/product/list-products/types"
 import ProductList from "features/product/list-products/ui/ProductList"
-import { useEffect, useState } from "react"
 import { Route, Routes, useMatch } from "react-router-dom"
+import { allProducts } from "features/product/list-products/data/allProducts"
+import { productToDisplay } from "features/product/display-product/data/productToDisplay"
+import { productToAddToCart } from "features/cart/add-cart-product/data/productToAddToCart"
 
 
 
 
 
 
-const App = () => {
-  const allProducts: ProductItemData[] = [
-    {
-      id: '1',
-      name: 'Mobile phone',
-      picture: '',
-      price: 1000,
-    },
-    {
-      id: '2',
-      name: 'Laptop',
-      picture: '',
-      price: 1500,
-    },
-    {
-      id: '3',
-      name: 'Tablet',
-      picture: '',
-      price: 500,
-    },  
-  ]
+const App = (): ReactElement => {
 
-  const productToDisplay: Record<string, ProductData> = {
-    '1': {
-          id: '1',
-          name: 'Mobile phone',
-          picture: '',
-          price: 1000,
-          description:
-          'The mobile phone is a superior smartphone that offersunmatched performance',
-    },
-    '2': {
-          id: '2',
-          name: 'Laptop',
-          picture: '',
-          price: 1500,
-          description:
-          'The Laptop is a superior laptop that offers unmatched performance',
-          },
-    '3': {
-            id: '3',
-            name: 'Tablet',
-            picture: '',
-            price: 500,
-            description:
-            'The Tablet is a superior tablet that offers unmatchedperformance',
-    },
-   };
-
-   const productToAddToCart: Record<string, CartProductItemData> = {
-    '1': {
-    id: '1',
-    name: 'Mobile phone',
-    picture: '',
-    price: 1000,
-    },
-    '2': {
-    id: '2',
-    name: 'Laptop',
-    picture: '',
-    price: 1500,
-    },
-    '3': {
-    id: '3',
-    name: 'Tablet',
-    picture: '',
-    price: 500,
-    },
-   };
-   
-
-   const matchProductPage = useMatch('/product/:id');
+const matchProductPage = useMatch('/product/:id');
 
 
   const[products,setProducts]= useState<ProductItemData[]>(allProducts)
