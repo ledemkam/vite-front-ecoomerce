@@ -24,7 +24,7 @@ const App = (): ReactElement => {
 
    const matchHomePage = useMatch('/');
    const matchProductPage = useMatch('/product/:id');
-    const matchCartPage = useMatch('/cart');
+   const matchCartPage = useMatch('/cart');
 
 
   const[products,setProducts]= useState<ProductItemData[]>(allProducts)
@@ -36,16 +36,17 @@ const App = (): ReactElement => {
     const filteredProducts = await searchProducts(search);
     setProducts(filteredProducts);
    };
-   const addToCart = async (productId: string): Promise<void> => {
+
+    const addToCart = async (productId: string): Promise<void> => {
     const updatedCart = await addProductToCart(productId);
     setCartProducts(updatedCart.cartProducts);
     setCartcount(updatedCart.cartCount);
    };
 
-   const removeFromCart = async (productId: CartProductItemData['id']): Promise<void> => {
- const updatedCart = await removeProductFromCart(productId);
- setCartProducts(updatedCart.cartProducts);
- setCartcount(updatedCart.cartCount);
+  const removeFromCart = async (productId: CartProductItemData['id']): Promise<void> => {
+  const updatedCart = await removeProductFromCart(productId);
+  setCartProducts(updatedCart.cartProducts);
+  setCartcount(updatedCart.cartCount);
 };
 
 
