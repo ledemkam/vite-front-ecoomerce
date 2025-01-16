@@ -1,13 +1,14 @@
 import type { ReactElement } from 'react';
 import Badge from '@mui/material/Badge';
 import ShoppingCart from '@mui/icons-material/ShoppingCart';
-
-type Props = {
-cartCount: number;
-};
+import useCartCount from '../../hooks/useCartCount';
 
 
-const CartCount = ({ cartCount }: Props): ReactElement => {
+
+
+const CartCount = (): ReactElement => {
+    const { cartCount } = useCartCount();
+
 return (
  <Badge badgeContent={cartCount} showZero color="error">
      <ShoppingCart />
