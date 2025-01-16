@@ -1,17 +1,18 @@
 import type { ReactElement } from "react";
-import { CartProductItemData } from "../../types";
 import CartProductItem from "../CartProductItem";
+import useCartProducts from "../../hooks";
+import useRemoveFromCart from "features/cart/remove-cart-product/hooks/useRemoveFromCart";
 
-type Props = {
-    cartProducts: CartProductItemData[];
-    removeFromCart: (productId:CartProductItemData["id"]) => void;
-    };
+
     
 
-const CartProductList = ({cartProducts, removeFromCart} : Props) : ReactElement => {
+const CartProductList = () : ReactElement => {
+  const { cartProducts } = useCartProducts();
+  const { removeFromCart } = useRemoveFromCart();
+
   return (
     <div className="flex flex-col gap-4">
-        {cartProducts.map((cartProduct) => {
+        {cartProducts?.map((cartProduct) => {
         const { id, ...cartProductWithoutId } = cartProduct;
         return (
             <div

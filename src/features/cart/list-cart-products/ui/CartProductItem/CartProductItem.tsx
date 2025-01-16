@@ -2,7 +2,7 @@ import type { ReactElement } from 'react';
 import classNames from 'classnames';
 import { Panorama } from '@mui/icons-material';
 import { CartProductItemData } from '../../types';
-import RemoveCartButton from 'features/cart/RemoveCartButton';
+import RemoveCartButton from 'features/cart/remove-cart-product';
 
 
 type Props = {

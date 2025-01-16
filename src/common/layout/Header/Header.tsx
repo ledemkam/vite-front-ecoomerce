@@ -1,17 +1,15 @@
 import { useMediaQuery } from '@mui/material';
 import CartCount from 'features/cart/display-cart-count/ui/CartCount';
+import useOnSubmit from 'features/product/search-products/hooks/useOnsubmit';
 import ProductSearch from 'features/product/search-products/ui/ProductSearch';
 import type { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
-type Props = {
-  onSubmit: (search: string) => void;
-  cartcount: number;
-
-};
 
 
-const Header = ({ onSubmit, cartcount }: Props): ReactElement => {
+
+const Header = (): ReactElement => {
+  const { onSubmit } = useOnSubmit();
   return (
     <header className="p-4 bg-primary flex flex-col lg:flex-row lg:justify-center">
       {useMediaQuery('(max-width: 1023px)') && (
@@ -21,7 +19,7 @@ const Header = ({ onSubmit, cartcount }: Props): ReactElement => {
             Site
           </Link>
           <Link to="/cart">
-            <CartCount cartCount={cartcount} />
+            <CartCount />
           </Link>
           </div>
           <ProductSearch onSubmit={onSubmit} />
@@ -34,7 +32,7 @@ const Header = ({ onSubmit, cartcount }: Props): ReactElement => {
       </Link>
         <ProductSearch onSubmit={onSubmit} />
         <Link to="/cart">
-          <CartCount cartCount={cartcount} />
+          <CartCount  />
         </Link>
       </div>
       )}

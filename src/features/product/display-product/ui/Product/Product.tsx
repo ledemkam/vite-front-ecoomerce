@@ -1,19 +1,25 @@
 import type { ReactElement } from 'react';
 import { Panorama } from '@mui/icons-material';
-import { ProductData } from '../../types';
 import AddCartButton from 'features/cart/add-cart-product/ui/AddCartButton';
 import classNames from 'classnames';
+import useProduct from '../../hooks/useProduct';
+import useAddToCart from 'features/cart/add-cart-product/hooks/useAddToCart';
 
-type Props = {
-  product: ProductData;
-  addToCart: () => void;
-  };
+
 
 
   const borderStyle = 'border border-gray-300 border-solid rounded-lg';
 
-  const Product = ({
-  product: { name, picture, price, description },addToCart, }: Props): ReactElement => {
+  const Product = (): ReactElement | null => {
+  const { addToCart } = useAddToCart();
+  const { product } = useProduct();
+
+   if (!product) {
+      return null
+   }
+
+  const { id,name, picture, price, description } = product;
+
   return (
    <div>
    <h1 className="text-2xl mb-4">{name}</h1>
@@ -37,7 +43,7 @@ type Props = {
    >
    <p className="text-4xl font-bold">{price}€</p>
    <div className="mt-4">
-   <AddCartButton addToCart={addToCart} />
+   <AddCartButton addToCart={() => addToCart(id)} />
    </div>
    </div>
    </div>
