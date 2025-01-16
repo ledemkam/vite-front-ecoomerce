@@ -38,7 +38,5 @@ interface CartRemovedActionData {
     payload: ChangeInCartResponse;
 }
 
-export type ActionData = | ProductsFetchedActionData | ProductsFilteredActionData | ProductFetchedActionData | CartCountFetchedActionData
-
-                         | CartProductsFetchedActionData  | CartAddedActionData   | CartRemovedActionData;
+export type ActionData = ProductsFetchedActionData | ProductsFilteredActionData | ProductFetchedActionData | CartCountFetchedActionData | CartProductsFetchedActionData  | CartAddedActionData   | CartRemovedActionData;
 

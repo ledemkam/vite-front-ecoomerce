@@ -1,19 +1,17 @@
 import type { ReactElement } from "react"
-import { useEffect, useState } from "react"
+import { useEffect, useReducer, Reducer } from "react"
 import Header from "common/layout/Header"
 import { CartProductItemData } from "features/cart/list-cart-products/types"
 import CartProductList from "features/cart/list-cart-products/ui/CartProductList"
-import { ProductData } from "features/product/display-product/types"
 import Product from "features/product/display-product/ui/Product"
-import { ProductItemData } from "features/product/list-products/types"
 import ProductList from "features/product/list-products/ui/ProductList"
 import { Route, Routes, useMatch } from "react-router-dom"
-import { allProducts } from "features/product/list-products/data/allProducts"
-import { productToDisplay } from "features/product/display-product/data/productToDisplay"
 import { getProduct } from "features/product/display-product/api/getProducts"
 import { searchProducts } from "features/product/search-products/api/searchProducts"
 import { addProductToCart, getCartCount, getCartProducts, removeProductFromCart } from "features/cart/api/cart"
 import { getProducts } from "features/product/list-products/api/getProducts"
+import { reducer, StateData, ActionData } from "features/common/reducer"
+import { initialState } from "features/common/state/initialState"
 
 
 
@@ -21,55 +19,81 @@ import { getProducts } from "features/product/list-products/api/getProducts"
 
 
 const App = (): ReactElement => {
+  const [state, dispatch] = useReducer<Reducer<StateData, ActionData>>(reducer, initialState);
 
    const matchHomePage = useMatch('/');
    const matchProductPage = useMatch('/product/:id');
    const matchCartPage = useMatch('/cart');
 
 
-  const[products,setProducts]= useState<ProductItemData[]>(allProducts)
-  const[product,setProduct]= useState<ProductData>(productToDisplay['1'])
-  const[cartProducts,setCartProducts]= useState<CartProductItemData[]>([])
-  const[cartcount,setCartcount]= useState(0)
+
+ 
 
   const onSubmit = async (search: string): Promise<void> => {
     const filteredProducts = await searchProducts(search);
-    setProducts(filteredProducts);
+    dispatch({
+    type: 'products/filtered',
+    payload: filteredProducts,
+    });
    };
+   
 
     const addToCart = async (productId: string): Promise<void> => {
     const updatedCart = await addProductToCart(productId);
-    setCartProducts(updatedCart.cartProducts);
-    setCartcount(updatedCart.cartCount);
+    
+    dispatch({
+      type: 'cart/added',
+      payload: updatedCart,
+    });
+   
    };
 
   const removeFromCart = async (productId: CartProductItemData['id']): Promise<void> => {
   const updatedCart = await removeProductFromCart(productId);
-  setCartProducts(updatedCart.cartProducts);
-  setCartcount(updatedCart.cartCount);
+  dispatch({
+    type: 'cart/removed',
+    payload: updatedCart,
+    });
+   
 };
 
 
 
 const fetchProducts = async (): Promise<void> => {
   const initialProducts = await getProducts();
-  setProducts(initialProducts);
+  dispatch({
+  type: 'products/fetched',
+  payload: initialProducts,
+  });
  };
+ 
 
  const fetchCartCount = async (): Promise<void> => {
   const initialCartCount = await getCartCount();
-  setCartcount(initialCartCount);
+  dispatch({
+    type: 'cartCount/fetched',
+    payload: initialCartCount,
+    });
+   
  };
 
  const fetchCartProducts = async (): Promise<void> => {
   const initialCartProducts = await getCartProducts();
-  setCartProducts(initialCartProducts);
+  dispatch({
+    type: 'cartProducts/fetched',
+    payload: initialCartProducts,
+    });
+   
  };
 
   const fetchProduct = async (productId: string): Promise<void> => {
     const product = await getProduct(productId);
-    setProduct(product);
-   };
+    dispatch({
+      type: 'product/fetched',
+      payload: product,
+      });
+     
+  }
    
 
 
@@ -79,13 +103,6 @@ const fetchProducts = async (): Promise<void> => {
     fetchProduct(productIdInURL);
     }
    }, [matchProductPage]);
-
-   const cartCount = cartProducts.length;
-   useEffect(() => {
-    setCartcount(cartCount);
-   }, [cartProducts]);
-
-
 
    useEffect(() => {
     fetchCartCount();
@@ -107,17 +124,17 @@ const fetchProducts = async (): Promise<void> => {
 
   return (
     <>
-      <Header onSubmit={onSubmit} cartcount={cartcount} />
+      <Header onSubmit={onSubmit} cartcount={state.cartcount} />
       <Routes>
-          <Route path="/" element={<ProductList products={products} />} />
+          <Route path="/" element={<ProductList products={state.products} />} />
           <Route
           path="/product/:id"
-          element={<Product product={product} addToCart={() =>addToCart(product.id)} />}  />
+          element={<Product product={state.product} addToCart={() =>addToCart(state.product.id)} />}  />
           <Route
           path="/cart"
           element={
           <CartProductList
-          cartProducts={cartProducts}
+          cartProducts={state.cartProducts}
           removeFromCart={removeFromCart} /> } />
        </Routes>
     </>
