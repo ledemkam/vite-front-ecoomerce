@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import type { StateData } from 'features/common/state/types';
 import { getCartProducts } from 'features/cart/api/cart';
+import { CartProductItemData } from '../types';
 
 
 type UseCartProductsReturn = {
-   cartProducts?: StateData['cartProducts'];
+   cartProducts?: CartProductItemData[]
 };
 
 const useCartProducts = (): UseCartProductsReturn => {

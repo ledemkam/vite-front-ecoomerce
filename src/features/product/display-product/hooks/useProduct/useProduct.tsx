@@ -1,10 +1,10 @@
 import { useMatch } from 'react-router-dom';
-import type { StateData } from 'features/common/state/types';
 import { getProduct } from '../../api/getProducts';
 import { useQuery , skipToken} from '@tanstack/react-query';
+import { ProductItemData } from 'features/product/list-products/types';
 
 type UseProductReturn = {
-   product?: StateData['product'];
+   product?: ProductItemData
 };
 
 

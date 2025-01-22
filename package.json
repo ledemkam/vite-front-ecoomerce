@@ -19,7 +19,8 @@
     "classnames": "2.5.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "6.24.1"
+    "react-router-dom": "6.24.1",
+    "vite-front-ecommerce": "file:"
   },
   "devDependencies": {
     "@commitlint/cli": "19.3.0",
