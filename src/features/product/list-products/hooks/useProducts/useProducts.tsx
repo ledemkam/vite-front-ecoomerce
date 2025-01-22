@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { StateData } from "features/common/state/types";
 import { getProducts } from "../../api/getProducts";
+import { ProductItemData } from "../../types";
 
  
 
 
 type UseProductsReturn = {
-    products?: StateData['products'];
+    products?: ProductItemData[];
     };
     
 const useProducts = (): UseProductsReturn => {
